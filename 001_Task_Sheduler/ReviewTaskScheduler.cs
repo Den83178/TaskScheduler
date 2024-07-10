@@ -21,6 +21,16 @@ namespace _001_Task_Sheduler
             // ExecuteTasks(null);
         }
 
+        protected override bool TryExecuteTaskInline(Task task, bool taskWasPreviouslyQueued)
+        {
+            Console.WriteLine($"      [TryExecuteTaskInLine] attempt perform task {task.Id} from the queue..");
+            lock (tasksList)
+            {
+                tasksList.Remove(task);
+            }
+            return base.TryExecuteTask(task);
+        }
+
         protected override bool TryDequeue(Task task)
         {
             Console.WriteLine($"      [TryDequeue] attempt delete Task {task.Id}");
