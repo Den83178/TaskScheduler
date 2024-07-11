@@ -6,13 +6,17 @@ using System.Threading.Tasks;
 
 namespace _001_Task_Sheduler
 {
-    internal class ReviewTaskScheduler : TaskScheduler
+    class ReviewTaskScheduler : TaskScheduler
     {
         private LinkedList<Task> tasksList = new LinkedList<Task>();
+
         protected override IEnumerable<Task> GetScheduledTasks()
         {
             return tasksList;
         }
+
+        // The mehod QueueTask call method Start from class Task
+
         protected override void QueueTask(Task task)
         {
             Console.WriteLine($"             [QueueTask] Task #{task.Id} entered in the queue");
@@ -23,7 +27,7 @@ namespace _001_Task_Sheduler
 
         protected override bool TryExecuteTaskInline(Task task, bool taskWasPreviouslyQueued)
         {
-            Console.WriteLine($"      [TryExecuteTaskInLine] attempt perform task {task.Id} from the queue..");
+            Console.WriteLine($"      [TryExecuteTaskInLine] attempt perform task {task.Id} synchronously..");
             lock (tasksList)
             {
                 tasksList.Remove(task);
